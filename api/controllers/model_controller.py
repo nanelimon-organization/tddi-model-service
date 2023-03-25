@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List
 
 import requests
 import torch
@@ -48,7 +48,7 @@ class Items(BaseModel):
             raise ValueError("Text cannot be empty or contain only whitespace")
         return v
 
-@model_router.post("/single_prediction", response_model=dict)
+@model_router.post("/single_prediction")
 async def single_prediction(item: Item, turkish_char: bool):
     """
     This endpoint takes an instance of the Item class and a boolean value for turkish_char parameter.
