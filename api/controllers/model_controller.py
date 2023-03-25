@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import List, Dict
+from typing import List, Dict, Any
 
 import requests
 import torch
@@ -48,9 +48,8 @@ class Items(BaseModel):
             raise ValueError("Text cannot be empty or contain only whitespace")
         return v
 
-
-@model_router.post("/single_prediction", response_model=Dict[str, int])
-async def single_prediction(item: Item, turkish_char: bool) -> Dict[str, int]:
+@model_router.post("/single_prediction", response_model=dict)
+async def single_prediction(item: Item, turkish_char: bool):
     """
     This endpoint takes an instance of the Item class and a boolean value for turkish_char parameter.
     It preprocesses the text input, encodes it with the BERT tokenizer, and feeds it to a pre-trained BERT model
@@ -110,13 +109,25 @@ async def single_prediction(item: Item, turkish_char: bool) -> Dict[str, int]:
     outputs = model.model(**encoded_input)
     _, predicted = torch.max(outputs.logits, 1)
     prediction = predicted.item()
+    is_offensive = 1 if prediction == 0 else 0
 
-    if prediction == 1:
-        is_offensive = 0
-    else:
-        is_offensive = 1
+    label_map = {
+        0: "INSULT",
+        1: "OTHER",
+        2: "PROFANITY",
+        3: "RACIST",
+        4: "SEXIST"
+    }
 
-    return {"prediction": prediction, "is_offensive": is_offensive}
+    result = {
+        "model": {
+            "prediction": label_map[prediction],
+            "is_offensive": is_offensive
+        },
+        "text": text
+    }
+    return {"result": result}
+
 
 @model_router.post("/bulk_prediction")
 async def bulk_prediction():
