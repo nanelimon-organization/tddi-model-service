@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 from typing import List
-
 import requests
 import torch
 from fastapi import APIRouter
@@ -13,7 +12,6 @@ MODEL_PATH = (
 )
 
 model_router = APIRouter()
-
 
 class Item(BaseModel):
     """
