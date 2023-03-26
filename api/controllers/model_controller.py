@@ -1,19 +1,20 @@
 import os
 from pathlib import Path
 from typing import List
-
 import requests
 import torch
 from fastapi import APIRouter
 from pydantic import BaseModel, validator
 from simpletransformers.classification import ClassificationModel
+from wsgi import BERTModelMicroService
+
+bert_serivce = BERTModelMicroService()
 
 MODEL_PATH = (
     Path(__file__).resolve().parent.parent / "static" / "models" / "dummy_model.bin"
 )
 
 model_router = APIRouter()
-
 
 class Item(BaseModel):
     """
@@ -212,3 +213,16 @@ async def bulk_prediction(items: Items, turkish_char: bool):
     return {"result": {"model": results, "texts": items.texts}}
 
 
+@model_router.get("/example_dump_model")
+async def get_label_score(texts: List[str]):
+    preprocess_url = "https://cryptic-oasis-68424.herokuapp.com/bulk_preprocess?turkish_char=true"
+
+    for text in texts:
+        preprocess_response = requests.post(
+            preprocess_url, json={"text": text})
+        processed_text = preprocess_response.json()["result"]
+
+        results = bert_serivce.predict(processed_text)
+
+    return {"success": True,
+            "payload": results}

@@ -1,17 +1,13 @@
 import uvicorn
-
+from wsgi import BERTModelMicroService
 
 def main():
-    """
-    Start the server from the command line using the default configuration.
-    """
-    uvicorn.run(
-        app="wsgi:app",
+     uvicorn.run(
+        BERTModelMicroService().app,
         port=5000,
         log_level="info",
-        reload=True,
+        workers=1,
     )
 
-
 if __name__ == "__main__":
-    main()
+   main()
