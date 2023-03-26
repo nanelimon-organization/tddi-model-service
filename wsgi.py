@@ -13,6 +13,9 @@ class BERTModelMicroService:
         """
         Initializes a new instance of the BERTModelMicroService class.
         """
+        self.bert_model = BertForSequenceClassification.from_pretrained(BERT_MODEL_PATH)
+        self.bert_tokenizer = BertTokenizer.from_pretrained(BERT_TOKENIZER_PATH, do_lower_case=True)
+        self.pipeline = TextClassificationPipeline(model=self.bert_model, tokenizer=self.bert_tokenizer)
         self.app = FastAPI(
             title="BERT Model Micro Service",
             version="0.1.0",
@@ -20,12 +23,8 @@ class BERTModelMicroService:
                         "It helps Telco and OTT brands to monitor and analyze Turkish text data to identify patterns in customer feedback "
                         "or detect inappropriate language, and improve their customer experience and reputation management."
         )
-
         self.make_middleware()
         self.init_routes()
-        self.bert_model = BertForSequenceClassification.from_pretrained(BERT_MODEL_PATH)
-        self.bert_tokenizer = BertTokenizer.from_pretrained(BERT_TOKENIZER_PATH, do_lower_case=True)
-        self.pipeline = TextClassificationPipeline(model=self.bert_model, tokenizer=self.bert_tokenizer)
 
     def predict(self, processed_text):
         results = [f"{processed_text[index]} - {i['label']}" for index, i in enumerate(self.pipeline(processed_text))]

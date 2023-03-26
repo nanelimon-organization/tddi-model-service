@@ -6,9 +6,12 @@ import torch
 from fastapi import APIRouter
 from pydantic import BaseModel, validator
 from simpletransformers.classification import ClassificationModel
+#from wsgi import BERTModelMicroService
+
+#bert_service = BERTModelMicroService()
 
 MODEL_PATH = (
-    Path(__file__).resolve().parent.parent / "static" / "models" / "dummy_model.bin"
+    Path(__file__).resolve().parent.parent / "static" / "model" / "dummy_model.bin"
 )
 
 model_router = APIRouter()
@@ -177,17 +180,19 @@ async def bulk_prediction(items: Items, turkish_char: bool):
 
     results = []
     preprocess_url = "https://cryptic-oasis-68424.herokuapp.com/bulk_preprocess"
-    for text in items.texts:
-        preprocess_params = {"turkish_char": turkish_char}
-        preprocess_response = requests.post(
-            preprocess_url, json={"text": text}, params=preprocess_params
-        )
-        processed_text = preprocess_response.json()["result"]
+    preprocess_params = {"turkish_char": turkish_char}
+    preprocess_response = requests.post(preprocess_url, json={"texts": items.texts}, params=preprocess_params)
+    processed_text = preprocess_response.json()['result']
 
-        encoded_input = tokenizer.encode_plus(
-            processed_text, padding="max_length", max_length=512, return_tensors="pt"
-        )
+    # Encode each text input separately
+    encoded_inputs = [tokenizer.encode_plus(
+        text,
+        padding="max_length",
+        max_length=512,
+        return_tensors="pt"
+    ) for text in processed_text]
 
+    for encoded_input in encoded_inputs:
         outputs = model.model(**encoded_input)
         _, predicted = torch.max(outputs.logits, 1)
         prediction = predicted.item()
@@ -207,6 +212,4 @@ async def bulk_prediction(items: Items, turkish_char: bool):
         }
         results.append(result)
 
-    return {"result": {"model": results, "texts": items.texts}}
-
-
+    return {"result": {"model": results, "texts": processed_text}}

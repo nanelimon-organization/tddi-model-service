@@ -12,6 +12,7 @@ build/
 .idea/
 develop-eggs/
 dist/
+api/static/
 downloads/
 eggs/
 .eggs/
