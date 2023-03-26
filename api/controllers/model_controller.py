@@ -178,7 +178,7 @@ async def bulk_prediction(items: Items, turkish_char: bool):
     tokenizer = model.tokenizer
 
     results = []
-    preprocess_url = "https://cryptic-oasis-68424.herokuapp.com/single_preprocess"
+    preprocess_url = "https://cryptic-oasis-68424.herokuapp.com/bulk_preprocess"
     for text in items.texts:
         preprocess_params = {"turkish_char": turkish_char}
         preprocess_response = requests.post(
