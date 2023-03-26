@@ -1,14 +1,12 @@
 import os
 from pathlib import Path
 from typing import List
+
 import requests
 import torch
 from fastapi import APIRouter
 from pydantic import BaseModel, validator
 from simpletransformers.classification import ClassificationModel
-#from wsgi import BERTModelMicroService
-
-#bert_service = BERTModelMicroService()
 
 MODEL_PATH = (
     Path(__file__).resolve().parent.parent / "static" / "model" / "dummy_model.bin"

@@ -1,8 +1,9 @@
 from fastapi import FastAPI
-from api import router
 from fastapi.middleware.cors import CORSMiddleware
-from transformers import BertTokenizer, BertForSequenceClassification
-from transformers import TextClassificationPipeline
+from transformers import (BertForSequenceClassification, BertTokenizer,
+                          TextClassificationPipeline)
+
+from api import router
 
 BERT_MODEL_PATH = "api/static/model/bigscience_t0_model"
 BERT_TOKENIZER_PATH = "api/static/model/bigscience_t0_tokenizer"
@@ -13,9 +14,6 @@ class BERTModelMicroService:
         """
         Initializes a new instance of the BERTModelMicroService class.
         """
-        self.bert_model = BertForSequenceClassification.from_pretrained(BERT_MODEL_PATH)
-        self.bert_tokenizer = BertTokenizer.from_pretrained(BERT_TOKENIZER_PATH, do_lower_case=True)
-        self.pipeline = TextClassificationPipeline(model=self.bert_model, tokenizer=self.bert_tokenizer)
         self.app = FastAPI(
             title="BERT Model Micro Service",
             version="0.1.0",
@@ -25,10 +23,15 @@ class BERTModelMicroService:
         )
         self.make_middleware()
         self.init_routes()
+        self.bert_model = BertForSequenceClassification.from_pretrained(BERT_MODEL_PATH)
+        self.bert_tokenizer = BertTokenizer.from_pretrained(BERT_TOKENIZER_PATH, do_lower_case=True)
+        self.pipeline = TextClassificationPipeline(model=self.bert_model, tokenizer=self.bert_tokenizer)
 
     def predict(self, processed_text):
-        results = [f"{processed_text[index]} - {i['label']}" for index, i in enumerate(self.pipeline(processed_text))]
-        return results
+        return [
+            f"{processed_text[index]} - {i['label']}"
+            for index, i in enumerate(self.pipeline(processed_text))
+        ]
 
     def make_middleware(self):
         """
