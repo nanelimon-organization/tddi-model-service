@@ -1,0 +1,12 @@
+id,text,is_offensive,target
+81c11060-a240-4d54-841b-9e2916039e85,curuk disli,1,INSULT
+be80ebbf-b322-4c3b-afa1-94932ea80731,bu adamin islama ve muslumanlara verdigi zarari gavur bile yapmaz ,1,RACIST
+f99e2513-83ed-4076-ac72-b9e2cff3f049,erkekler zora gelmez,1,SEXIST
+83ed2b2e-b815-4f36-9fc4-80a9050cf2d0,utanmazin gotune kazik sokmuslar bu tikirti nereden geliyor demis,1,PROFANITY
+d93e05f7-bfdd-4cdb-99d8-3048761b30ff,otomasyon sistemlerine dogrudan baglanabilir,0,OTHER
+81eca520-15a0-4f5b-a1dd-5929bba34bdc,amini siktigimin yarragi,1,PROFANITY
+a2497690-5201-4c28-bdb8-4206ea672765,ekipte bir cucemiz eksikti o da oldu,1,INSULT
+b9122be9-5a9a-491e-8ecc-998ac05c6ef0,kadin yonetici sayisi oldukca az oldugu icin sirket iyi yonetilmekte,1,SEXIST
+2dd1b0d1-45cd-4d4a-86c3-b290db5a0316,makara bunu duyunca avluya cikmis ve kizaga samanlarin altina bir balta saklamis,0,OTHER
+d7781fd9-ee64-4b51-9abd-aa8eda638230,hay ebenin pembe patigine sicayim bok kafali,1,PROFANITY
+03d5a6fe-ea99-444b-975a-63b4ccb10f29,suriyeliler yozlasip toplumda huzuru bozuyorlar,1,RACIST

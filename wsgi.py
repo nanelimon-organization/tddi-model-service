@@ -4,12 +4,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from transformers import (BertForSequenceClassification, BertTokenizer,
                           TextClassificationPipeline)
 
+from logger.log_config import LogConfig
+from logging.config import dictConfig
 
 BERT_MODEL_PATH = "static/model/bigscience_t0_model"
 BERT_TOKENIZER_PATH = "static/model/bigscience_t0_tokenizer"
 bert_model = BertForSequenceClassification.from_pretrained(BERT_MODEL_PATH)
 bert_tokenizer = BertTokenizer.from_pretrained(BERT_TOKENIZER_PATH, do_lower_case=True)
 pipeline = TextClassificationPipeline(model=bert_model, tokenizer=bert_tokenizer)
+
+
+def init_logger():
+    dictConfig(LogConfig().dict())
 
 
 def make_middleware(app: FastAPI):
@@ -54,6 +60,7 @@ def create_app() -> FastAPI:
     )
     init_routers(app)
     make_middleware(app)
+    init_logger()
     return app
 
 
