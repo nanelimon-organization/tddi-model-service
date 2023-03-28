@@ -3,7 +3,6 @@ from fastapi import APIRouter
 from transformers import TextClassificationPipeline
 import wsgi
 from api.models.requests import Items
-from collections import defaultdict
 
 model_router = APIRouter()
 
