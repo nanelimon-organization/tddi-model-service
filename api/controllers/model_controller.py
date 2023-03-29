@@ -57,5 +57,5 @@ async def get_label_score(items: Items, turkish_char: bool) -> dict:
 
     pred_list = [{"prediction": result["label"], "is_offensive": 0 if result["label"] == "OTHER" else 1} for result in
                  results]
-    response_body = {"result": {"model": pred_list, "texts": items.texts}}
+    response_body = {"result": {"model": pred_list, "texts": processed_text}}
     return response_body
