@@ -7,8 +7,7 @@ import requests
 import pandas as pd
 import datetime
 
-
-def get_predictions(df: pd.DataFrame) -> pd.DataFrame:
+def fetch_predictions(df: pd.DataFrame) -> pd.DataFrame:
     """
     Sends a request to the TDDI-Model-Service prediction endpoint with a given DataFrame and retrieves the predictions for each text in the DataFrame.
 
@@ -26,8 +25,13 @@ def get_predictions(df: pd.DataFrame) -> pd.DataFrame:
     Examples
     --------
     >>> import pandas as pd
-    >>> df = pd.DataFrame({'text': ['This is a sample text.','Another sample text!']})
+    >>> pd.DataFrame({'text': ['Bu bir örnek metindir.','Bu da bir örnek metin!']})
     >>> result = get_predictions(df)
+    >>> print(result.head())
+    
+                         text   target      is_offensive
+    0  bu bir örnek metindir    OTHER             0
+    1  bu da bir örnek metin    OTHER             0
     """
     print('Bağlantı kuruluyor..')
     start_date = datetime.datetime.now()
@@ -40,16 +44,17 @@ def get_predictions(df: pd.DataFrame) -> pd.DataFrame:
     
     for i, prediction in enumerate(predictions):
         df.at[i, 'target'] = prediction['prediction']
-        df.at[i, 'is_offensive'] = prediction['is_offensive']
+        df.at[i, 'is_offensive'] = int(prediction['is_offensive'])
+    
+    df['is_offensive'] = df['is_offensive'].astype(int)
 
     return df
 
 
 df = pd.read_csv('static/obs_clean_data_not_turkish_char_dumy.csv')
 
-result = get_predictions(df)
+result = fetch_predictions(df)
 result.to_csv('result.csv')
 
 print(get_predictions(df).head())
-
 ```
