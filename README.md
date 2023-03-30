@@ -29,7 +29,6 @@ def get_predictions(df: pd.DataFrame) -> pd.DataFrame:
     >>> df = pd.DataFrame({'text': ['This is a sample text.','Another sample text!']})
     >>> result = get_predictions(df)
     """
-    
     print('Bağlantı kuruluyor..')
     start_date = datetime.datetime.now()
     api_url = "http://127.0.0.1:5000/prediction?turkish_char=true"
@@ -38,8 +37,7 @@ def get_predictions(df: pd.DataFrame) -> pd.DataFrame:
     print(f'sonuc döndü bu dönüş: {end_date-start_date} zaman sürdü.')
 
     predictions = response.json()['result']['model']
-    texts = response.json()['result']['texts']
-    df['clean_text'] = texts
+    
     for i, prediction in enumerate(predictions):
         df.at[i, 'target'] = prediction['prediction']
         df.at[i, 'is_offensive'] = prediction['is_offensive']
