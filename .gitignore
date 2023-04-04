@@ -130,3 +130,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 api/static/datasets
+
+example.py
