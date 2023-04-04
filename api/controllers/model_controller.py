@@ -13,8 +13,6 @@ model_router = APIRouter()
 async def get_label_score(items: Items) -> dict:
     """
     This endpoint that defines an endpoint for a FastAPI router.
-    It takes in a list of text inputs (items) and a boolean value (turkish_char)
-    indicating whether to replace non-Turkish characters with their Turkish counterparts.
     It then preprocesses the text inputs, encodes them with a BERT tokenizer,
     and feeds them to a pre-trained
     BERT model for Turkish language available at 'https://huggingface.co/dbmdz/bert-base-turkish-128k-uncased'
@@ -28,8 +26,6 @@ async def get_label_score(items: Items) -> dict:
     -----------
     items : Items
         An instance of the Items class that contains a list of text inputs.
-    turkish_char : bool
-        A boolean value indicating whether to replace non-Turkish characters with their Turkish counterparts.
 
     Returns:
     --------
@@ -40,28 +36,27 @@ async def get_label_score(items: Items) -> dict:
         This function uses a pre-trained BERT model for Turkish language available at
         'https://huggingface.co/dbmdz/bert-base-turkish-128k-uncased'.
     """
-    api_url = f"https://cryptic-oasis-68424.herokuapp.com/preprocess"
     start_date = datetime.now()
-    response = requests.post(api_url, json={"texts": items.texts})
-    print(response)
-    processed_text = response.json()["result"]
+
+    api_url = "https://cryptic-oasis-68424.herokuapp.com/preprocess?tr_chars=false&acc_marks=true&punct=true&lower=true&offensive=false&norm_numbers=true&remove_numbers=false&remove_spaces=true&remove_stopwords=false&min_len=4"
+    preprocess_response = requests.post(api_url, json={"texts": items.texts})
+    processed_text = preprocess_response.json()['result']
     end_date = datetime.now()
     logger.info(
-        f" [✓] request[https://cryptic-oasis-68424.herokuapp.com/preprocess] "
-        f" returned successfully - time : {end_date-start_date}"
+        f" [✓] request[https://cryptic-oasis-68424.herokuapp.com/preprocess?tr_chars=false&acc_marks=true&punct=true&lower=true&offensive=false&norm_numbers=true&remove_numbers=false&remove_spaces=true&remove_stopwords=false&min_len=4] "
+        f" returned successfully - time : {end_date - start_date}"
     )
 
-    start_date = datetime.now()
     pipeline = TextClassificationPipeline(
         model=wsgi.bert_model, tokenizer=wsgi.bert_tokenizer
     )
-    
+
     results = pipeline(processed_text)
 
     end_date = datetime.now()
     logger.info(
-        f" [✓] request[https://cryptic-oasis-68424.herokuapp.com/preprocess]"
-        f" finished successfully - time : {end_date-start_date}"
+        f" [✓] request[http://127.0.0.1:5000/prediction]"
+        f" finished successfully - time : {end_date - start_date}"
     )
 
     pred_list = [
@@ -71,6 +66,6 @@ async def get_label_score(items: Items) -> dict:
         }
         for result in results
     ]
-    print(pred_list)
+
     response_body = {"result": {"model": pred_list}}
     return response_body
