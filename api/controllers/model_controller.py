@@ -10,7 +10,7 @@ model_router = APIRouter()
 
 
 @model_router.post("/prediction")
-async def get_label_score(items: Items, turkish_char: bool) -> dict:
+async def get_label_score(items: Items) -> dict:
     """
     This endpoint that defines an endpoint for a FastAPI router.
     It takes in a list of text inputs (items) and a boolean value (turkish_char)
@@ -40,13 +40,14 @@ async def get_label_score(items: Items, turkish_char: bool) -> dict:
         This function uses a pre-trained BERT model for Turkish language available at
         'https://huggingface.co/dbmdz/bert-base-turkish-128k-uncased'.
     """
-    api_url = f"https://cryptic-oasis-68424.herokuapp.com/bulk_preprocess?turkish_char={turkish_char}"
+    api_url = f"https://cryptic-oasis-68424.herokuapp.com/preprocess"
     start_date = datetime.now()
     response = requests.post(api_url, json={"texts": items.texts})
+    print(response)
     processed_text = response.json()["result"]
     end_date = datetime.now()
     logger.info(
-        f" [✓] request[https://cryptic-oasis-68424.herokuapp.com/bulk_preprocess?turkish_char={turkish_char}] "
+        f" [✓] request[https://cryptic-oasis-68424.herokuapp.com/preprocess] "
         f" returned successfully - time : {end_date-start_date}"
     )
 
@@ -59,7 +60,7 @@ async def get_label_score(items: Items, turkish_char: bool) -> dict:
 
     end_date = datetime.now()
     logger.info(
-        f" [✓] request[http://127.0.0.1:5000/prediction?turkish_char={turkish_char}]"
+        f" [✓] request[https://cryptic-oasis-68424.herokuapp.com/preprocess]"
         f" finished successfully - time : {end_date-start_date}"
     )
 
@@ -70,6 +71,6 @@ async def get_label_score(items: Items, turkish_char: bool) -> dict:
         }
         for result in results
     ]
-
+    print(pred_list)
     response_body = {"result": {"model": pred_list}}
     return response_body
