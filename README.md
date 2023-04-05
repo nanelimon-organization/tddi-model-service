@@ -1,3 +1,37 @@
+# TDDI-Model-Service Kullanımı
+
+TDDI-Model-Service, Teknofest 2023 Doğal Dil İşleme Yarışması kapsamında metinlerin sınıflandırılması ve hakaret içerik analizi için kullanılan bir dış servistir. Bu GitHub deposu, TDDI-Model-Service'e istek göndererek tahminler almak ve sonuçları pandas DataFrame'lerde işlemek için gerekli Python kodlarını içerir.
+
+### Özellikler
+
+- Metinlerin sınıflandırılması
+- Hakaret içerik analizi
+- Kolay entegrasyon için Python örnek kodları
+- Pandas DataFrame'lerle uyumluluk
+
+### Başlarken
+
+Bu GitHub deposu, TDDI-Model-Service'e istek göndermek için kullanılabilir Python kodlarını içermektedir. İlk olarak, bu GitHub deposunu yerel makinenize klonlayın:
+
+```
+git clone https://github.com/username/TDDI-Model-Service-Example.git
+```
+
+Daha sonra, gerekli Python kütüphanelerini yükleyin:
+
+
+```
+pip install requests pandas
+
+```
+
+### Kullanım
+
+Depodaki örnek Python kodlarını kullanarak TDDI-Model-Service sunucusuna istek gönderin ve metinlerin sınıflandırılması ve hakaret içerik analizi için tahminler alın. Bu işlem, metinlerin içeriğine göre analiz edilmesini ve değerlendirilmesini sağlar.
+
+Örnek Python kodları, metinleri temsil eden pandas DataFrame'leri alarak TDDI-Model-Service sunucusuna istek gönderir ve tahminlerin sonuçlarını geri döndürür. Sonuçlar, orijinal metinlerin yanı sıra tahmin edilen sınıfları ve metinlerin hakaret içerip içermediğini gösteren 'is_offensive' sütunlarıyla birlikte bir DataFrame'de saklanır.
+
+
 # tddi-model-service
 
 
