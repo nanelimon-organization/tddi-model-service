@@ -1,17 +1,18 @@
 from fastapi import FastAPI
 from api import router
 from fastapi.middleware.cors import CORSMiddleware
-from transformers import (BertForSequenceClassification, BertTokenizer,
-                          TextClassificationPipeline)
-
+import __main__
+from api.models.bert import BERTClass
+from transformers import BertTokenizer
+import torch
 from logger.log_config import LogConfig
 from logging.config import dictConfig
 
-BERT_MODEL_PATH = "static/model/bigscience_t0_model"
-BERT_TOKENIZER_PATH = "static/model/bigscience_t0_tokenizer"
-bert_model = BertForSequenceClassification.from_pretrained(BERT_MODEL_PATH)
-bert_tokenizer = BertTokenizer.from_pretrained(BERT_TOKENIZER_PATH, do_lower_case=True)
-pipeline = TextClassificationPipeline(model=bert_model, tokenizer=bert_tokenizer)
+
+setattr(__main__, "BERTClass", BERTClass)
+saved_model = torch.load('model_path', map_location=torch.device('cpu'))
+saved_model.eval()
+tokenizer = BertTokenizer.from_pretrained('dbmdz/bert-base-turkish-128k-uncased', do_lower_case=True)
 
 
 def init_logger():
