@@ -14,12 +14,14 @@ model_router = APIRouter()
 async def get_label_score_multilabel(items: Items) -> dict:
     start_date = datetime.now()
 
-    api_url = "https://cryptic-oasis-68424.herokuapp.com/preprocess?" \
-              "tr_chars=false&acc_marks=true&punct=true&lower=true&offensive=false&" \
-              "norm_numbers=true&remove_numbers=false&remove_spaces=true&remove_stopwords=false&" \
-              "min_len=4"
+    api_url = (
+        "https://cryptic-oasis-68424.herokuapp.com/preprocess?"
+        "tr_chars=false&acc_marks=true&punct=true&lower=true&offensive=false&"
+        "norm_numbers=true&remove_numbers=false&remove_spaces=true&remove_stopwords=false&"
+        "min_len=4"
+    )
     preprocess_response = requests.post(api_url, json={"texts": items.texts})
-    processed_text = preprocess_response.json()['result']
+    processed_text = preprocess_response.json()["result"]
     model = wsgi.saved_model
     end_date = datetime.now()
     logger.info(
@@ -30,7 +32,7 @@ async def get_label_score_multilabel(items: Items) -> dict:
         f" returned successfully - time : {end_date - start_date}"
     )
 
-    target_list = ['INSULT', 'OTHER', 'PROFANITY', 'RACIST', 'SEXIST']
+    target_list = ["INSULT", "OTHER", "PROFANITY", "RACIST", "SEXIST"]
 
     predicted = []
     for text in processed_text:
@@ -39,19 +41,19 @@ async def get_label_score_multilabel(items: Items) -> dict:
             None,
             add_special_tokens=True,
             max_length=64,
-            padding='max_length',
+            padding="max_length",
             return_token_type_ids=True,
             truncation=True,
             return_attention_mask=True,
-            return_tensors='pt'
+            return_tensors="pt",
         )
 
         with torch.no_grad():
             model.linear.weight.fill_(0.5)
             model.linear.bias.fill_(0.1)
-            input_ids = encodings['input_ids'].to('cpu', dtype=torch.long)
-            attention_mask = encodings['attention_mask'].to('cpu', dtype=torch.long)
-            token_type_ids = encodings['token_type_ids'].to('cpu', dtype=torch.long)
+            input_ids = encodings["input_ids"].to("cpu", dtype=torch.long)
+            attention_mask = encodings["attention_mask"].to("cpu", dtype=torch.long)
+            token_type_ids = encodings["token_type_ids"].to("cpu", dtype=torch.long)
             output = model(input_ids, attention_mask, token_type_ids)
             final_output = torch.sigmoid(output).cpu().detach().numpy().tolist()
             predicted.append(target_list[int(np.argmax(final_output, axis=1))])

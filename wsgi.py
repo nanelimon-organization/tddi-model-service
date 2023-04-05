@@ -10,9 +10,11 @@ from logging.config import dictConfig
 
 
 setattr(__main__, "BERTClass", BERTClass)
-saved_model = torch.load('model_path', map_location=torch.device('cpu'))
+saved_model = torch.load("model_path", map_location=torch.device("cpu"))
 saved_model.eval()
-tokenizer = BertTokenizer.from_pretrained('dbmdz/bert-base-turkish-128k-uncased', do_lower_case=True)
+tokenizer = BertTokenizer.from_pretrained(
+    "dbmdz/bert-base-turkish-128k-uncased", do_lower_case=True
+)
 
 
 def init_logger():
@@ -25,7 +27,7 @@ def make_middleware(app: FastAPI):
         allow_origins=["*"],
         allow_credentials=True,
         allow_methods=["*"],
-        allow_headers=["*"]
+        allow_headers=["*"],
     )
 
 
@@ -55,9 +57,9 @@ def create_app() -> FastAPI:
         title="BERT Model Micro Service",
         version="0.1.0",
         description="This API analyzes Turkish text using BERT, a natural language processing technology. "
-                    "It helps Telco and OTT brands to monitor and analyze Turkish text data to identify patterns "
-                    "in customer feedback or detect inappropriate language, and improve their customer experience "
-                    "and reputation management."
+        "It helps Telco and OTT brands to monitor and analyze Turkish text data to identify patterns "
+        "in customer feedback or detect inappropriate language, and improve their customer experience "
+        "and reputation management.",
     )
     init_routers(app)
     make_middleware(app)
