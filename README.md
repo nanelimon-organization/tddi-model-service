@@ -48,12 +48,4 @@ def fetch_predictions(df: pd.DataFrame) -> pd.DataFrame:
     df['is_offensive'] = df['is_offensive'].astype(int)
 
     return df
-
-
-df = pd.read_csv('static/obs_clean_data_not_turkish_char_dumy.csv')
-
-result = fetch_predictions(df)
-result.to_csv('result.csv')
-
-print(get_predictions(df).head())
 ```
