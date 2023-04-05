@@ -95,7 +95,10 @@ Bu Python kodu, TDDI-Model-Service adlı bir dış servise HTTP POST isteği gö
 Kodun temel bileşenleri şunlardır:
 
 api_url: Bu değişken, TDDI-Model-Service tahmin sunucusunun URL adresini içerir. Bu örnekte, sunucu "http://127.0.0.1:5000/prediction?turkish_char=true" adresinde çalışıyor. URL'deki "turkish_char=true" sorgu parametresi, Türkçe karakterleri düzgün bir şekilde işlemek için gereklidir.
+
 data: Bu değişken, analiz edilecek metinleri içeren bir sözlük yapısında veriyi temsil eder. Bu örnekte, iki metin içeren bir liste kullanılır: "Bu bir örnek metindir." ve "Bu da bir örnek metin!".
+
 response: Bu değişken, TDDI-Model-Service sunucusuna gönderilen isteğin yanıtını temsil eder. İstek, requests.post fonksiyonu kullanılarak gönderilir ve api_url ve json=data argümanlarıyla yapılandırılır. Bu işlem, metinlerin sunucuya gönderilmesini ve tahminlerin alınmasını sağlar.
+
 Yanıtın durum kodunun kontrolü: Bu bölüm, yanıtın durum kodunu kontrol ederek sunucudan başarılı bir yanıt alınıp alınmadığını belirler. Eğer durum kodu 200 ise, başarılı bir yanıt alındığını ve tahminlerin çıktı olarak yazdırılması gerektiğini gösterir. Aksi takdirde, bir hata mesajı yazdırılır.
 
