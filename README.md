@@ -1,3 +1,4 @@
+<h1 align='center'>🤖 Model Service</h1>
 
 ## TDDI-Model-Service Prediction Endpoint | Example Request Function
 
@@ -34,7 +35,7 @@ def fetch_predictions(df: pd.DataFrame) -> pd.DataFrame:
     """
     print('Bağlantı kuruluyor..')
     start_date = datetime.datetime.now()
-    api_url = "http://127.0.0.1:5000/prediction?turkish_char=true"
+    api_url = "http://44.210.240.127/docs"
     response = requests.post(api_url, json={"texts": list(df.text)})
     end_date = datetime.datetime.now()
     print(f'sonuc döndü bu dönüş: {end_date-start_date} zaman sürdü.')
