@@ -1,8 +1,48 @@
 <h1 align='center'>🤖 Model Service</h1>
 
+## TDDI Model Service
+
+Geliştirilmiş olan BERT Base, Türkçe doğal dil işleme ile hakaret tespiti modelinin çeşitli uygulamalardaki kullanımını kolaylaştırmak amacıyla geliştirilmiş bir mikroservistir. Deployment işlemleri AWS EC2 üzerinden sağlanmaktadır.
+
+Swagger dökümanına erişmek için **[tıklayınız](http://44.210.240.127/docs)**
 
 
-## Example Request Function
+### Ortam Oluşturma
+
+Lütfen Python sürümünüzü '3.10' olarak ayarlayın.
+
+Python versiyonunuzdan emin olmak için:
+
+```bash
+python3 --version
+```
+
+#### Geliştirme Ortamını Ayarlamak
+- Virtual environment oluşturunuz.
+```bash
+    $ python -m venv <venv-name>
+```
+- Virtual environmentınızı aktive ediniz.
+```bash
+    $ source <venv-name>/bin/activate
+```
+- Kütüphaneleri Yükleyiniz.
+```bash
+    $ pip install -r requirements.txt
+```
+### Çalıştırma
+
+Uygulamanın çalışması için gerekli adımlar tamamlanmıştır.
+
+```bash
+    $ python3 main.py
+```
+
+App 8000 portunda çalışmaktadır.
+> http://localhost:8000/ 
+
+
+#### Örnek İstek Fonksiyonu
 
 ```python
 import requests
@@ -52,3 +92,4 @@ def fetch_predictions(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 ```
+
