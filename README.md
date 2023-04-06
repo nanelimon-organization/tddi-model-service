@@ -1,6 +1,8 @@
 <h1 align='center'>🤖 Model Service</h1>
 
-## TDDI-Model-Service Prediction Endpoint | Example Request Function
+
+
+## Example Request Function
 
 ```python
 import requests
