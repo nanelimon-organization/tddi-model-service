@@ -1,3 +1,5 @@
+
+    
 from datetime import datetime
 import requests
 from fastapi import APIRouter
@@ -9,9 +11,28 @@ import numpy as np
 
 model_router = APIRouter()
 
-
 @model_router.post("/multilabel-prediction")
 async def get_label_score_multilabel(items: Items) -> dict:
+    """
+    Performs multilabel prediction on input texts using a saved PyTorch model.
+
+    Parameters
+    ----------
+    * items : Items
+        - Request body containing a list of texts to be predicted.
+
+    Returns
+    -------
+    * dict
+        - Response body containing a list of predictions and corresponding is_offensive values.
+
+    Examples
+    --------
+    >>> texts = {"texts": ["Naber Canım?", "Naber lan hıyarto?"]}
+    >>> response = requests.post("http://44.210.240.127/docs", json=texts)
+    >>> print(response.json())
+    {"result": {"model": [{"prediction": "OTHER", "is_offensive": 0}, {"prediction": "INSULT", "is_offensive": 1}]}}
+    """
     start_date = datetime.now()
 
     api_url = (
