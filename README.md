@@ -38,8 +38,8 @@ Uygulamanın çalışması için gerekli adımlar tamamlanmıştır.
     $ python3 main.py
 ```
 
-App 8000 portunda çalışmaktadır.
-> http://localhost:8000/ 
+App 5000 portunda çalışmaktadır.
+> http://localhost:5000/ 
 
 
 #### Örnek İstek Fonksiyonu
