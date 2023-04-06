@@ -7,41 +7,6 @@ Geliştirilmiş olan BERT Base, Türkçe doğal dil işleme ile hakaret tespiti 
 Swagger dökümanına erişmek için **[tıklayınız](http://44.210.240.127/docs)**
 
 
-### Ortam Oluşturma
-
-Lütfen Python sürümünüzü '3.10' olarak ayarlayın.
-
-Python versiyonunuzdan emin olmak için:
-
-```bash
-python3 --version
-```
-
-#### Geliştirme Ortamını Ayarlamak
-- Virtual environment oluşturunuz.
-```bash
-    $ python -m venv <venv-name>
-```
-- Virtual environmentınızı aktive ediniz.
-```bash
-    $ source <venv-name>/bin/activate
-```
-- Kütüphaneleri Yükleyiniz.
-```bash
-    $ pip install -r requirements.txt
-```
-### Çalıştırma
-
-Uygulamanın çalışması için gerekli adımlar tamamlanmıştır.
-
-```bash
-    $ python3 main.py
-```
-
-App 5000 portunda çalışmaktadır.
-> http://localhost:5000/ 
-
-
 #### Örnek İstek Fonksiyonu
 
 ```python
@@ -92,4 +57,40 @@ def fetch_predictions(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 ```
+
+
+### Ortam Oluşturma
+
+Lütfen Python sürümünüzü '3.10' olarak ayarlayın.
+
+Python versiyonunuzdan emin olmak için:
+
+```bash
+python3 --version
+```
+
+#### Geliştirme Ortamını Ayarlamak
+- Virtual environment oluşturunuz.
+```bash
+    $ python -m venv <venv-name>
+```
+- Virtual environmentınızı aktive ediniz.
+```bash
+    $ source <venv-name>/bin/activate
+```
+- Kütüphaneleri Yükleyiniz.
+```bash
+    $ pip install -r requirements.txt
+```
+### Çalıştırma
+
+Uygulamanın çalışması için gerekli adımlar tamamlanmıştır.
+
+```bash
+    $ python3 main.py
+```
+
+App 5000 portunda çalışmaktadır.
+> http://localhost:5000/ 
+
 
